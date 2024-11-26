@@ -6,8 +6,22 @@ This tool should be written in Python
 It should be able to read file from AWS S3 using AWS SDK for Python(boto3)
 
 
-## Set - Up 
+## Set-up 
 
 1. Run the following command to set up your virtual environment and install required dependencies:
+    make requirements
 
-make requirements
+2. Run this command next to set up security and coverage modules:
+    make dev-setup
+
+3. Set up your PYTHONPATH:
+    export PYTHONPATH=$(pwd)
+
+4. Run checks for unit-tests, pep8 compliancy, coverage and security vulnerabilities:
+    make run-checks
+
+## Main funciton - Obfuscation
+
+The main code 'obfuscator' will be supplied with a json file path containing the s3 location URL and the PII fields requiring obfuscating. 
+
+## Testing 
