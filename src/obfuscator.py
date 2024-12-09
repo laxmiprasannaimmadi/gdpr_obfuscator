@@ -32,8 +32,10 @@ def obfuscator(file_path):
     pydict = json.loads(file_path)
     bucket, key = get_bucket_and_key(pydict['file_to_obfuscate'])
     data_type = get_data_type(key)
+    
+    s3 = init_s3_client
 
-    pass
+    input_data = get_data(s3, bucket, key)
 
 def get_bucket_and_key(s3_file_path):
     '''
@@ -68,4 +70,32 @@ def get_data_type(key):
 
     return data_type
 
-def get_data(client: botocore.client, )
+def init_s3_client():
+    """
+    Initialises an s3 client using boto3.
+
+            Parameters:
+                    No inputs are taken for this function.
+
+            Returns:
+                    An instance of s3 client.
+    """
+    try:
+        session = botocore.session.get_session()
+        s3_client = session.create_client("s3")
+        return s3_client
+
+    except Exception:
+        raise ConnectionRefusedError("Failed to connect to s3 client")
+
+def get_data(client: botocore.client, bucket, key):
+    """
+    Retrieve data from s3
+    client: s3 botocore client 
+    bucket: s3 bucket name
+    key: s3 data key
+
+    return: bytestream representation of a data
+    """
+
+    
