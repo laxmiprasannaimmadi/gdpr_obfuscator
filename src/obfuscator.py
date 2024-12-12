@@ -2,7 +2,7 @@ from urllib.parse import urlparse
 from io import StringIO
 import logging
 import json
-import botocore
+import botocore.session
 import csv
 
 
@@ -36,9 +36,11 @@ def obfuscator(file_path):
     bucket, key = get_bucket_and_key(pydict["file_to_obfuscate"])
     data_type = get_data_type(key)
 
-    s3 = init_s3_client
+    #initiating s3 client 
+    s3 = init_s3_client()
 
-    input_data = get_data(s3, bucket, key)
+    #getting csv file data from s3 bucket in the form of bytes object and decoding it 
+    input_data = get_data(s3, bucket, key).decode("utf-8")
 
     if data_type == "csv":
         pii_masked = obfuscate_csv(input_data, pydict["pii_fields"])
@@ -72,6 +74,7 @@ def get_data_type(key):
     Get data type from s3 object key
     Valid data types: csv, json, parquet
     """
+    print("inside get_data_type")
     data_types_allowed = ["csv", "json", "parquet"]
     data_type = key.split(".")[-1]
 
@@ -96,6 +99,7 @@ def init_s3_client():
     try:
         session = botocore.session.get_session()
         s3_client = session.create_client("s3")
+        print("connected to s3")
         return s3_client
 
     except Exception:
@@ -109,9 +113,9 @@ def get_data(client, bucket, key):
     bucket: s3 bucket name
     key: s3 data key
 
-    return: bytestream representation of a data
+    return: bytestream object representation of a data
     """
-
+    print("inside get_data")
     logger = logging.getLogger(__name__)
     logging.basicConfig()
     logger.setLevel(logging.CRITICAL)
@@ -120,7 +124,7 @@ def get_data(client, bucket, key):
 
     response = client.get_object(Bucket=bucket, Key=key)
 
-    return response["Body"].read().decode("utf-8")
+    return response["Body"].read()
 
 
 def obfuscate_csv(data, pii_fields):
@@ -132,15 +136,19 @@ def obfuscate_csv(data, pii_fields):
         2. if pii_field is not present in input data field names, function will send a warning and proceeds with other fields
         3. returns the masked csv file for pii_fields
     """
+    print("inside obfuscate_csv")
     logger = logging.getLogger(__name__)
     logging.basicConfig()
-    logger.setLevel(logging.info)
+    logger.setLevel(logging.WARNING)
 
     logger.info("obfuscate pii_fields in csv file")
 
-    input_csv_dict = csv.DictReader(data)
+    input_csv_dict = csv.DictReader(StringIO(data))
 
-    print(input_csv_dict)
+    print(f'input_csv_dict.fieldnames:', input_csv_dict.fieldnames)
+
+    input_csv_dict.fieldnames = [x.lower() for x in input_csv_dict.fieldnames]
+    print(f'input_csv_dict.fieldnames after lowercase:',input_csv_dict.fieldnames)
 
     if input_csv_dict.fieldnames is None:
         return str()
@@ -148,12 +156,24 @@ def obfuscate_csv(data, pii_fields):
     masked_data = []
     for row in input_csv_dict:
         for field in pii_fields:
-            if input_csv_dict.fieldnames == field:
+            if field in input_csv_dict.fieldnames :
+                print(f'field:', field)
                 row[field] = "***"
         masked_data.append(row)
 
+    print(f'masked_data',masked_data)
     masked_bufer = StringIO()
     writer = csv.DictWriter(masked_bufer, input_csv_dict.fieldnames)
     writer.writeheader()
     writer.writerows(masked_data)
+
+    print(f'masked_buffer:', masked_bufer.getvalue())
     return masked_bufer.getvalue()
+
+obfuscator( 
+    json.dumps(
+        {
+            'file_to_obfuscate': "s3://gdpr-obfuscator-data/new-data/file1.csv",
+            'pii_fields': ["name", "email_address"]
+        }
+    ))
