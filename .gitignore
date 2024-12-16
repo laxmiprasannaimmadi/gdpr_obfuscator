@@ -23,4 +23,4 @@ terraform/init.sh
 zen.txt
 *.tfstate*
 *.pkl
-obfuscator_JSON.py
+obfuscator _JSON.py
