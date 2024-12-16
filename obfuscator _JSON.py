@@ -44,6 +44,9 @@ def obfuscator(file_path):
 
     if data_type == "csv":
         pii_masked = obfuscate_csv(input_data, pydict["pii_fields"])
+    elif data_type == "json":
+        pii_masked = obfuscate_json(input_data, pydict["pii_fields"])
+
 
     return pii_masked
 
@@ -170,10 +173,51 @@ def obfuscate_csv(data, pii_fields):
     print(f'masked_buffer:', masked_bufer.getvalue())
     return masked_bufer.getvalue()
 
+def obfuscate_json(data, pii_fields):
+    """
+    Function that obfuscate/mask mentioned pii_fields in input file is in json format
+
+    return:
+        1. returns empty string, if input is empty
+        2. if pii_field is not present in input data field names, function will send a warning and proceeds with other fields
+        3. returns the masked json file for pii_fields
+    """
+    print("inside obfuscate_json")
+    logger = logging.getLogger(__name__)
+    logging.basicConfig()
+    logger.setLevel(logging.WARNING)
+
+    logger.info("obfuscate pii_fields in json file")
+
+    input_json_dict = json.load(data)
+
+    print(f'input_json_dict.fieldnames:', type(input_json_dict))
+
+    input_json_dict.fieldnames = [x.lower() for x in input_json_dict.keys()]
+    print(f'input_json_dict.fieldnames after lowercase:',input_json_dict.keys())
+
+    if input_json_dict.fieldnames is None:
+        return str()
+
+    masked_data = []
+    for row in input_json_dict:
+        for field in pii_fields:
+            if field in input_json_dict.fieldnames :
+                print(f'field:', field)
+                row[field] = "***"
+        masked_data.append(row)
+
+    print(f'masked_data',masked_data)
+    masked_bufer = StringIO()
+    masked_data = json.dumps(masked_bufer, indent = 4)
+
+    print(f'masked_buffer:', masked_bufer.getvalue())
+    return masked_bufer.getvalue()
+
 obfuscator( 
     json.dumps(
         {
-            "file_to_obfuscate": "s3://gdpr-obfuscator-data/new-data/file2.csv",
+            "file_to_obfuscate": "s3://gdpr-obfuscator-data/new-data/file1.json",
             "pii_fields": ["name", "email_address"]
         }
     ))
