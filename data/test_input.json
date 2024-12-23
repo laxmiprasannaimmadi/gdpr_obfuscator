@@ -1,4 +1,4 @@
 {
-    "file_to_obfuscate": "s3://gdpr-obfuscator-data/new-data/file1.csv",
+    "file_to_obfuscate": "s3://gdpr-obfuscator-data/new-data/file2.csv",
     "pii_fields": ["name", "email_address"]
 }

@@ -74,7 +74,7 @@ run-black:
 
 ## Run the all unit tests
 unit-test:
-	$(call execute_in_env, PYTHONPATH=${PYTHONPATH} pytest -v)
+	$(call execute_in_env, PYTHONPATH=${PYTHONPATH} pytest --testdox -vvrP)
 
 
 ## Run a all tests with testdox
