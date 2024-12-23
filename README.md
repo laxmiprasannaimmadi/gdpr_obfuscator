@@ -2,14 +2,14 @@
 GDPR Obfuscation tool that can be integrated as a library module into a Python codebase.
 
 ## Table of Contents
-1. About
-2. Assumptions
-3. Usage
-4. Installation Instructions
-5. Prerequisites
-6. Testing 
-7. Desired Outcome
-8. PEP8_and_security
+1. [About]
+2. [Assumptions]
+3. [Usage]
+4. [Installation_and_Instructions]
+5. [Prerequisites]
+6. [Testing] 
+7. [Desired_Outcome]
+8. [PEP8_and_security]
 
 ## About
 The purpose of this project is to create a general-purpose tool to process data being ingested to AWS and intercept personally identifiable information (PII). All information stored by Northcoders data projects should be for bulk data analysis only. Consequently, there is a requirement under GDPR to ensure that all data containing information that can be used to identify an individual should be anonymised.
@@ -37,7 +37,7 @@ Import:
 from src.obfuscator import obfuscator
 
 
-## Installation Instructions
+## Installation_and_Instructions
 
 ## Prerequisites
     Python 3.x: ensure you have Python installed. Check version using
@@ -75,7 +75,7 @@ To run unit tests run:
 
     make unit-test
 
-## Desired Outcome
+## Desired_Outcome
 
 The tool should be invoked by sending a JSON string containing: 
 the S3 location of the required CSV file for obfuscation
