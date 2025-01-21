@@ -22,8 +22,8 @@ The purpose of this project is to create a general-purpose tool to process data 
 
 ## Assumptions 
 1. Data is stored in **CSV format** in S3. This tool uses External Python libralies:
-- Boto3 for managing AWS resources
-- Botocore for Error handling available witin AWS enviroment
+    - Boto3 for managing AWS resources
+    - Botocore for Error handling available witin AWS enviroment
 
 2. Fields containing GDPR-sensitive data are known and will be supplied in advance
 
