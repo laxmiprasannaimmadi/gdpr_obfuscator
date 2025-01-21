@@ -14,8 +14,11 @@ GDPR Obfuscation tool that can be integrated as a library module into a Python c
 ## About
 The purpose of this project is to create a general-purpose tool to process data being ingested to AWS and intercept personally identifiable information (PII). All information stored by Northcoders data projects should be for bulk data analysis only. Consequently, there is a requirement under GDPR to ensure that all data containing information that can be used to identify an individual should be anonymised.
 
-- This tool written in Python
-- It should be able to read file from AWS S3 using AWS SDK for Python(boto3)
+- This obfuscation tool can be integrated as a library module into a Python codebase.
+
+- It is expected that the code will use the AWS SDK for Python (boto3).
+
+- The library is suitable for deployment on a platform within the AWS ecosystem, such as EC2, ECS, or Lambda.
 
 ## Assumptions 
 1. Data is stored in **CSV format** in S3. This tool uses External Python libralies:
