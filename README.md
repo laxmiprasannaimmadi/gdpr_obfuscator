@@ -135,8 +135,8 @@ Below is the way to run the file from command line from the root 'gdpr_obfuscato
 2. `obfuscateFields` -- fields that needs to be obfuscated in the s3 file that has been passed. If there are more than one fields, they need to be seperated by space and enclosed in quotes. 
 
 **Examples:**
-* `python src/example_obfuscator.py --s3FilePath s3://pm-gdpr-obfuscator/people-100.csv --obfuscateFields "first name" "name"`
-* `python src/example_obfuscator.py --s3FilePath s3://pm-gdpr-obfuscator/generated.json --obfuscateFields "email_address"`
+* `python src/example_obfuscator.py --s3FilePath s3://s3://gdpr-obfuscator-data/new-data/file2.csv --obfuscateFields "first name" "name"`
+* `python src/example_obfuscator.py --s3FilePath s3://s3://gdpr-obfuscator-data/new-data/file1.csv --obfuscateFields "email_address"`
 
 
 ## PEP8 and Security
