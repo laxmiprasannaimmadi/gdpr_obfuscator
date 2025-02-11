@@ -118,8 +118,9 @@ JSON string format:
 "pii_fields": ["name", "surname", "other_filelds_to_mask"]
 }
 ```
-
+```
 masked_data = obfuscator(JSON)
+```
 
 **Example to test the function from commandline**
 
