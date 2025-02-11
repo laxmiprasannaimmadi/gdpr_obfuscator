@@ -112,10 +112,12 @@ git clone https://github.com/laxmiprasannaimmadi/gdpr_obfuscator
 the S3 location of the required CSV file for obfuscation and the names of the fields that are required to be obfuscated
 
 JSON string format:
+```json
 {
 "file_to_obfuscate": "s3://bucket_name/path_to_data/file.csv",
 "pii_fields": ["name", "surname", "other_filelds_to_mask"]
 }
+```
 
 masked_data = obfuscator(JSON)
 
