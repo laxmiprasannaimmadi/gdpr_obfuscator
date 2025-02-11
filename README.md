@@ -127,9 +127,10 @@ masked_data = obfuscator(JSON)
 A sample file 'example_obfuscator.py' can be used to test the functionality of 'obfuscator.py'. 
 
 Below is the way to run the file from command line from the root 'gdpr_obfuscator' folder.
-
+```
 'python src/example_obfuscator.py --s3FilePath <path of the s3 file in aws> --obfuscateFields <fields in the file that needs to be obfuscated>`
- 
+```
+
 **Inputs needed to run the file:** 
 1. `s3FilePath` -- the path of the s3 file which needs to be Obfuscated (Please ensure that this file is present in the s3 file path and is accessible to the user set up through `aws configure`)
 2. `obfuscateFields` -- fields that needs to be obfuscated in the s3 file that has been passed. If there are more than one fields, they need to be seperated by space and enclosed in quotes. 
