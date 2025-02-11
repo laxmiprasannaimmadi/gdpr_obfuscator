@@ -108,6 +108,17 @@ clone the repo:
 ``` 
 git clone https://github.com/laxmiprasannaimmadi/gdpr_obfuscator
 ```
+`obfuscator` is the main function which needs to be invoked by sending a `JSON` string containing: 
+the S3 location of the required CSV file for obfuscation and the names of the fields that are required to be obfuscated
+
+JSON string format:
+{
+"file_to_obfuscate": "s3://bucket_name/path_to_data/file.csv",
+"pii_fields": ["name", "surname", "other_filelds_to_mask"]
+}
+
+masked_data = obfuscator(JSON)
+
 **Example to test the function from commandline**
 
 A sample file 'example_obfuscator.py' can be used to test the functionality of 'obfuscator.py'. 
